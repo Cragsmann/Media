@@ -1,18 +1,12 @@
-import {
-  createSlice,
-  PayloadAction,
-  Slice,
-  SliceCaseReducers,
-} from "@reduxjs/toolkit";
+import { createSlice, Slice, SliceCaseReducers } from "@reduxjs/toolkit";
 import { fetchUsers } from "../thunks/fetchUsers";
 
 export interface User {
   id: number;
   name: string;
-  // ... other user properties
 }
 
-interface UsersState {
+export interface UsersState {
   data: User[];
   isLoading: boolean;
   error: null | string;
@@ -28,28 +22,25 @@ const usersSlice: Slice<
   UsersState,
   SliceCaseReducers<UsersState>
 > = createSlice({
-  name: "users",
+  name: "edusers",
   initialState,
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(fetchUsers.pending, (state) => {
+      .addCase(fetchUsers.pending, (state: UsersState) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(fetchUsers.fulfilled, (state, action: PayloadAction<User[]>) => {
+      .addCase(fetchUsers.fulfilled, (state: UsersState, action) => {
         state.isLoading = false;
         state.data = action.payload;
       })
-      .addCase(fetchUsers.rejected, (state, action) => {
+
+      .addCase(fetchUsers.rejected, (state: UsersState, action) => {
         state.isLoading = false;
-        state.error = action.error.message || "An error occurred";
+        state.error = JSON.stringify(action.error) || "An error occurred";
       });
   },
 });
-
-// export const selectUsers = (state: RootState) => state.users.data;
-// export const selectUsersLoading = (state: RootState) => state.users.isLoading;
-// export const selectUsersError = (state: RootState) => state.users.error;
 
 export const usersReducer = usersSlice.reducer;
