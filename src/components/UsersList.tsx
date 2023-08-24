@@ -1,8 +1,9 @@
 import React, { Reducer, useEffect } from "react";
 import { fetchUsers } from "../store"; // Make sure to provide the correct path to fetchUsers
 import { useAppDispatch, useAppSelector } from "../hooks/redux-functions";
+import { Skeleton } from "./Skeleton";
 
-function UsersList(): JSX.Element {
+function UsersList(): JSX.Element | JSX.Element[] {
   const dispatch = useAppDispatch();
   const { data, isLoading, error } = useAppSelector((state) => {
     console.log(state);
@@ -14,7 +15,7 @@ function UsersList(): JSX.Element {
   }, [dispatch]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Skeleton times={6} className="h-10 w-full" />;
   }
   if (error) {
     return (
