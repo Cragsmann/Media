@@ -1,5 +1,90 @@
 {
-  "users": [{ "id": 1, "name": "Myra" }],
+  "users": [
+    {
+      "id": 1,
+      "name": "Myra"
+    },
+    {
+      "name": "Dr. Alison O'Reilly-Turcotte",
+      "id": 2
+    },
+    {
+      "name": "Flora Jast I",
+      "id": 3
+    },
+    {
+      "name": "Ian Homenick",
+      "id": 4
+    },
+    {
+      "name": "Erik Kunze",
+      "id": 5
+    },
+    {
+      "name": "Dennis Wintheiser",
+      "id": 6
+    },
+    {
+      "name": "Luther Muller-Nolan",
+      "id": 7
+    },
+    {
+      "name": "Sharon Reichert",
+      "id": 8
+    },
+    {
+      "name": "Alexis Gleason",
+      "id": 9
+    },
+    {
+      "name": "Rolando Luettgen",
+      "id": 10
+    },
+    {
+      "name": "Seth Franecki",
+      "id": 11
+    },
+    {
+      "name": "Phyllis Emard",
+      "id": 12
+    },
+    {
+      "name": "Natasha Wisoky Sr.",
+      "id": 13
+    },
+    {
+      "name": "Wendy Hirthe",
+      "id": 14
+    },
+    {
+      "name": "Hugo Pollich I",
+      "id": 15
+    },
+    {
+      "name": "Ms. Nadine Pollich",
+      "id": 16
+    },
+    {
+      "name": "Cornelius Littel",
+      "id": 17
+    },
+    {
+      "name": "Tasha Hammes",
+      "id": 18
+    },
+    {
+      "name": "Ralph Price",
+      "id": 19
+    },
+    {
+      "name": "Mr. Neal McDermott",
+      "id": 20
+    },
+    {
+      "name": "Dr. Megan Ward",
+      "id": 21
+    }
+  ],
   "albums": [],
   "photos": []
 }

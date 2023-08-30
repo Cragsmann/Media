@@ -1,6 +1,6 @@
 import { createSlice, Slice, SliceCaseReducers } from "@reduxjs/toolkit";
 import { fetchUsers } from "../thunks/fetchUsers";
-
+import { addUser } from "../thunks/addUser";
 export interface User {
   id: number;
   name: string;
@@ -22,7 +22,7 @@ const usersSlice: Slice<
   UsersState,
   SliceCaseReducers<UsersState>
 > = createSlice({
-  name: "edusers",
+  name: "users",
   initialState,
   reducers: {},
   extraReducers(builder) {
@@ -37,6 +37,19 @@ const usersSlice: Slice<
       })
 
       .addCase(fetchUsers.rejected, (state: UsersState, action) => {
+        state.isLoading = false;
+        state.error = JSON.stringify(action.error) || "An error occurred";
+      })
+      .addCase(addUser.pending, (state: UsersState) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(addUser.fulfilled, (state: UsersState, action) => {
+        state.isLoading = false;
+        state.data.push(action.payload);
+      })
+
+      .addCase(addUser.rejected, (state: UsersState, action) => {
         state.isLoading = false;
         state.error = JSON.stringify(action.error) || "An error occurred";
       });

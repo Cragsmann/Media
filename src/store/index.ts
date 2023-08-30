@@ -29,3 +29,4 @@ export type AppDispatch = typeof store.dispatch;
 
 export default store;
 export * from "./thunks/fetchUsers";
+export * from "./thunks/addUser";

@@ -1,31 +1,63 @@
-import React, { Reducer, useEffect } from "react";
-import { fetchUsers } from "../store"; // Make sure to provide the correct path to fetchUsers
-import { useAppDispatch, useAppSelector } from "../hooks/redux-functions";
+import React, { useEffect } from "react";
+import { fetchUsers, addUser } from "../store"; // Make sure to provide the correct path to fetchUsers
+import { useAppSelector } from "../hooks/redux-functions";
+import { useThunk } from "../hooks/use-thunk";
 import { Skeleton } from "./Skeleton";
+import { Button } from "./Button";
 
 function UsersList(): JSX.Element | JSX.Element[] {
-  const dispatch = useAppDispatch();
-  const { data, isLoading, error } = useAppSelector((state) => {
-    console.log(state);
+  const [isLoadingUsers, loadingUsersError, doFetchUsers] =
+    useThunk(fetchUsers);
+  const [isCreatingUser, creatingUserError, doCreateUser] = useThunk(addUser);
 
+  const { data } = useAppSelector((state) => {
     return state.users;
   });
-  useEffect(() => {
-    dispatch(fetchUsers()); // Dispatch fetchUsers as a function
-  }, [dispatch]);
 
-  if (isLoading) {
+  useEffect(() => {
+    doFetchUsers();
+  }, [doFetchUsers]);
+
+  const handleUserCreation = () => {
+    doCreateUser();
+  };
+
+  if (isLoadingUsers) {
     return <Skeleton times={6} className="h-10 w-full" />;
   }
-  if (error) {
+  if (loadingUsersError) {
     return (
       <h1>
-        <span className="text-red-600">Error:</span> {error}
+        <span className="text-red-600">Error:</span>{" "}
+        {loadingUsersError ? loadingUsersError.message : null}
       </h1>
     );
   }
-  // @ts-ignore
-  return <div>{data.length}</div>;
+  const renderedUsers = data.map((user) => {
+    return (
+      <div className="mb-2 border rounded" key={user.id}>
+        <div className="flex p-2 justify-between items-center cursor-pointer">
+          {user.name}
+        </div>
+      </div>
+    );
+  });
+
+  return (
+    <div>
+      <div className="flex flex-row justify-between m-3">
+        <h1 className="m-2 text-xl">Users</h1>
+        {isCreatingUser ? (
+          "Creating User..."
+        ) : (
+          <Button onClick={handleUserCreation}>+ Add User</Button>
+        )}
+        {creatingUserError && `ERROR:${creatingUserError.message}`}
+      </div>
+
+      {renderedUsers}
+    </div>
+  );
 }
 
 export default UsersList;
