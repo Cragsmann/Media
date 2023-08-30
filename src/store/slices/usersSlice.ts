@@ -1,6 +1,7 @@
 import { createSlice, Slice, SliceCaseReducers } from "@reduxjs/toolkit";
 import { fetchUsers } from "../thunks/fetchUsers";
 import { addUser } from "../thunks/addUser";
+import { removeUser } from "../thunks/removeUser";
 export interface User {
   id: number;
   name: string;
@@ -27,6 +28,7 @@ const usersSlice: Slice<
   reducers: {},
   extraReducers(builder) {
     builder
+      ///fetch Users--------------------------------------------------
       .addCase(fetchUsers.pending, (state: UsersState) => {
         state.isLoading = true;
         state.error = null;
@@ -35,11 +37,12 @@ const usersSlice: Slice<
         state.isLoading = false;
         state.data = action.payload;
       })
-
       .addCase(fetchUsers.rejected, (state: UsersState, action) => {
         state.isLoading = false;
         state.error = JSON.stringify(action.error) || "An error occurred";
       })
+
+      ///create User---------------------------------------------------
       .addCase(addUser.pending, (state: UsersState) => {
         state.isLoading = true;
         state.error = null;
@@ -48,8 +51,22 @@ const usersSlice: Slice<
         state.isLoading = false;
         state.data.push(action.payload);
       })
-
       .addCase(addUser.rejected, (state: UsersState, action) => {
+        state.isLoading = false;
+        state.error = JSON.stringify(action.error) || "An error occurred";
+      })
+
+      /// remove User----------------------------------------------------
+      .addCase(removeUser.pending, (state: UsersState, action) => {
+        state.isLoading = true;
+      })
+      .addCase(removeUser.fulfilled, (state: UsersState, action) => {
+        state.isLoading = false;
+        state.data = state.data.filter(
+          (user: User) => user.id !== action.payload.id
+        );
+      })
+      .addCase(removeUser.rejected, (state: UsersState, action) => {
         state.isLoading = false;
         state.error = JSON.stringify(action.error) || "An error occurred";
       });

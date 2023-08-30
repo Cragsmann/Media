@@ -1,12 +1,16 @@
 import React from "react";
 import classNames from "classnames";
 
-interface PanelProps {
+type PanelProps = {
   children: React.ReactNode;
   className?: string;
-}
+};
 
-function Panel({ children, className, ...rest }: PanelProps): JSX.Element {
+export function Panel({
+  children,
+  className,
+  ...rest
+}: PanelProps): JSX.Element {
   const finalClassNames = classNames(
     "border rounded p-3 shadow bg-white w-full",
     className
@@ -18,5 +22,3 @@ function Panel({ children, className, ...rest }: PanelProps): JSX.Element {
     </div>
   );
 }
-
-export default Panel;

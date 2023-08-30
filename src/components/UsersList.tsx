@@ -4,6 +4,8 @@ import { useAppSelector } from "../hooks/redux-functions";
 import { useThunk } from "../hooks/use-thunk";
 import { Skeleton } from "./Skeleton";
 import { Button } from "./Button";
+import { UserListItem } from "./UsersListItem";
+import { User } from "../store/slices/usersSlice";
 
 function UsersList(): JSX.Element | JSX.Element[] {
   const [isLoadingUsers, loadingUsersError, doFetchUsers] =
@@ -33,14 +35,8 @@ function UsersList(): JSX.Element | JSX.Element[] {
       </h1>
     );
   } else {
-    content = data.map((user) => {
-      return (
-        <div className="mb-2 border rounded" key={user.id}>
-          <div className="flex p-2 justify-between items-center cursor-pointer">
-            {user.name}
-          </div>
-        </div>
-      );
+    content = data.map((user: User) => {
+      return <UserListItem key={user.id} user={user} />;
     });
   }
 

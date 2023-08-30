@@ -11,17 +11,20 @@ export function useThunk<ReturnedAction>(thunk: ThunkFunction<ReturnedAction>) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
 
-  const runThunk = useCallback(() => {
-    setIsLoading(true);
-    setError(null);
-    dispatch(thunk())
-      .unwrap()
-      .catch((error) => {
-        setIsLoading(false);
-        setError(error);
-      })
-      .finally(() => setIsLoading(false));
-  }, [dispatch, thunk]);
+  const runThunk = useCallback(
+    (arg?: any) => {
+      setIsLoading(true);
+      setError(null);
+      dispatch(thunk(arg))
+        .unwrap()
+        .catch((error) => {
+          setIsLoading(false);
+          setError(error);
+        })
+        .finally(() => setIsLoading(false));
+    },
+    [dispatch, thunk]
+  );
 
   return [isLoading, error, runThunk] as const;
 }
